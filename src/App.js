@@ -1,4 +1,4 @@
-import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
+import { Link, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 const users = [
@@ -56,7 +56,13 @@ const SearchPage = ({ match, location }) => {
       {location.search}
     </p>
   );
-}
+};
+
+const NoMatchPage = () => {
+  return (
+    <h3>404 - Not found</h3>
+  );
+};
 
 const AboutPage = () => {
   return (
@@ -72,11 +78,14 @@ function App() {
         <Link to="/users">Users</Link>
         <Link to="/search?q=react">Search</Link>
         <Link to="/about">About</Link>
-        <Route exact path="/" component={IndexPage} />
-        <Route exact path="/users" component={UsersPage} />
-        <Route exact path="/user/:userId" component={UserPage} />
-        <Route exact path="/search" component={SearchPage} />
-        <Route exact path="/about" component={AboutPage} />
+        <Switch>
+          <Route exact path="/" component={IndexPage} />
+          <Route exact path="/users" component={UsersPage} />
+          <Route exact path="/user/:userId" component={UserPage} />
+          <Route exact path="/search" component={SearchPage} />
+          <Route exact path="/about" component={AboutPage} />
+          <Route component={NoMatchPage} />
+        </Switch>
       </Router>
     </section>
   );
