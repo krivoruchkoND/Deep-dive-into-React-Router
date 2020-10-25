@@ -49,6 +49,15 @@ const UserPage = ({ match, location }) => {
   );
 };
 
+const SearchPage = ({ match, location }) => {
+  return (
+    <p>
+      <strong>Query Params: </strong>
+      {location.search}
+    </p>
+  );
+}
+
 const AboutPage = () => {
   return (
     <h3>About Page</h3>
@@ -61,10 +70,12 @@ function App() {
       <Router>
         <Link to="/">Home</Link>
         <Link to="/users">Users</Link>
+        <Link to="/search?q=react">Search</Link>
         <Link to="/about">About</Link>
         <Route exact path="/" component={IndexPage} />
         <Route exact path="/users" component={UsersPage} />
         <Route exact path="/user/:userId" component={UserPage} />
+        <Route exact path="/search" component={SearchPage} />
         <Route exact path="/about" component={AboutPage} />
       </Router>
     </section>
