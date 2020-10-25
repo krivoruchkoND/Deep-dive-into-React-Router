@@ -1,4 +1,4 @@
-import { Link, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Link, BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 
 const users = [
@@ -64,10 +64,26 @@ const PropsPage = ({ title }) => {
   );
 };
 
+const RedirectPage = () => {
+  return <h3>Redirect Page</h3>;
+};
+
 const NoMatchPage = () => {
   return (
     <h3>404 - Not found</h3>
   );
+};
+
+const AuthPage = ({ isLoggedIn }) => {
+  if (isLoggedIn) {
+    return <Redirect to="/dashboard" />;
+  } else {
+    return <h3>User not loggedin</h3>;
+  }
+};
+
+const DashboardPage = () => {
+  return <h3>Dashboard Page</h3>;
 };
 
 const AboutPage = () => {
@@ -84,6 +100,9 @@ function App() {
         <Link to="/users">Users</Link>
         <Link to="/search?q=react">Search</Link>
         <Link to="/props">Passing Props</Link>
+        <Link to="/old-route">Redirecting to New page</Link>
+        <Link to="/auth-not-loggedin">Not Loggedin</Link>
+        <Link to="/auth-loggedin">User Loggedin</Link>
         <Link to="/about">About</Link>
         <Switch>
           <Route exact path="/" component={IndexPage} />
@@ -91,7 +110,12 @@ function App() {
           <Route exact path="/user/:userId" component={UserPage} />
           <Route exact path="/props" render={(props) => <PropsPage {...props} title={`Props through render`} />} />
           <Route exact path="/search" component={SearchPage} />
+          <Route exact path="/new-route" component={RedirectPage} />
+          <Route exact path="/dashboard" component={DashboardPage} />
+          <Route exact path="/auth-not-loggedin" render={(props) => <AuthPage {...props} isLoggedIn={false} />} />
+          <Route exact path="/auth-loggedin" render={(props) => <AuthPage {...props} isLoggedIn={true} />} />
           <Route exact path="/about" component={AboutPage} />
+          <Redirect from="/old-route" to="/new-route" />
           <Route component={NoMatchPage} />
         </Switch>
       </Router>
